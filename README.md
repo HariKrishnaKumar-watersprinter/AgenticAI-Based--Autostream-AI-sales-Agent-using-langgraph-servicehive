@@ -259,4 +259,18 @@ ngrok http 8000
 
 ---
 
+## 🎤 Author
+
+**Hari Krishna Kumar -AI,ML,Data Science & Analytics Enthusiast**
+
+---
+## 📬 Contact
+
+For collaboration or queries:
+
+* LinkedIn: *[www.linkedin.com/in/hari-668364112]*
+* Email: *[harikrishnakumar368@gmail.com]*
+
+---
+
 
