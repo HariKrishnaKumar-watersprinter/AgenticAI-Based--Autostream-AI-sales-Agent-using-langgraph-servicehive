@@ -59,9 +59,9 @@ html, body, [data-testid="stAppViewContainer"] {
     border-right: 1px solid var(--border) !important;
 }
 
-/* ── Streamlit chrome is now fully visible ── */
-/* Removed: #MainMenu, footer, header { visibility: hidden; } */
-/* Removed: [data-testid="stToolbar"] { display: none; } */
+/* ── Hide Streamlit menu and footer to prevent accidental cache clearing ── */
+#MainMenu, footer, header { visibility: hidden !important; }
+[data-testid="stToolbar"] { display: none !important; }
 /* ── Top wordmark bar ── */
 .wordmark-bar {
     display: flex;
