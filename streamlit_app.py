@@ -328,7 +328,7 @@ html, body, [data-testid="stAppViewContainer"] {
 .element-container { margin-bottom: 0 !important; }
 </style>
 """, unsafe_allow_html=True)
-@st.cache_data
+
 # ── Session State Init ────────────────────────────────────────────────────────
 def _init_state():
     defaults = {
