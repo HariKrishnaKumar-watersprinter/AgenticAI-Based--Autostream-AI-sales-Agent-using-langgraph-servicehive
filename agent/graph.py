@@ -45,7 +45,7 @@ from agent.intent_detector import (
 )
 from agent.rag_pipeline import retrieve_context
 from tools.lead_capture import mock_lead_capture
-
+import streamlit as st
 
 # ── State Schema ─────────────────────────────────────────────────────────────
 
@@ -68,7 +68,7 @@ class AgentState(TypedDict):
 # ── LLM Setup ────────────────────────────────────────────────────────────────
 
 def _get_llm():
-    api_key2='fe530a38259c4de2bc506cf863512984.Mtfh8Sb2nsy97Sgb'
+    api_key2 = st.secrets["api_key"]
     #api_key = os.getenv("ANTHROPIC_API_KEY")
     #if not api_key:
         #raise EnvironmentError(
