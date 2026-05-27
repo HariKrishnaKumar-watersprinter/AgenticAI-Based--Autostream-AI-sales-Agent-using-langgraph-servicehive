@@ -28,15 +28,5 @@
         "captured_at": "2026-05-27T20:09:07.705072",
         "source": "social_chat_agent",
         "status": "new"
-    },
-    {
-        "lead_id": "LEAD-1004",
-        "name": "Hari Kumar",
-        "email": "sarah@example.com",
-        "platform": "Instagram",
-        "plan": "Basic",
-        "captured_at": "2026-05-27T20:12:30.857997",
-        "source": "social_chat_agent",
-        "status": "new"
     }
 ]
