@@ -1,6 +1,6 @@
 # AutoStream – Social-to-Lead Agentic Workflow
 Deployed link : https://autostream-ai-sales-agent-servicehive.streamlit.app/
-> **ServiceHive × Inflx** | Machine Learning Intern Assignment  
+> **ServiceHive × Inflx** 
 > Built with **LangGraph**  | Python 3.9+
 
 ---
