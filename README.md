@@ -64,17 +64,6 @@ source venv/bin/activate        # macOS/Linux
 ```bash
 pip install -r requirements.txt
 ```
-
-### 4. Set up your API key
-
-```bash
-cp .env.example .env
-# Edit .env and add your Anthropic API key:
-# ANTHROPIC_API_KEY=sk-ant-...
-```
-
-> Get your key at [console.anthropic.com](https://console.anthropic.com)
-
 ### 5. Run the agent
 
 ```bash
@@ -262,7 +251,7 @@ ngrok http 8000
 |---|---|
 | Language | Python 3.9+ |
 | Agent Framework | LangGraph 0.2+ |
-| LLM | Claude Haiku (Anthropic) |
+| LLM | GLM 4.5 Flash |
 | State Management | LangGraph `StateGraph` + typed `AgentState` |
 | RAG | JSON knowledge base + keyword retrieval |
 | Testing | pytest (19 tests) |
@@ -270,6 +259,4 @@ ngrok http 8000
 
 ---
 
-## License
 
-MIT — Built for ServiceHive × Inflx Machine Learning Intern Assignment.
