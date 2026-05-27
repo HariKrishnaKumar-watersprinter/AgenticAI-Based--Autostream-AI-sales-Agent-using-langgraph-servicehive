@@ -26,7 +26,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
-
+@st.cache_data
 # ── CSS: Dark editorial theme ─────────────────────────────────────────────────
 st.markdown("""
 <style>
