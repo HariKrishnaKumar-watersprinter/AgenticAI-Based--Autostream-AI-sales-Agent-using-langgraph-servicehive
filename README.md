@@ -5,6 +5,10 @@ Deployed link : https://autostream-ai-sales-agent-servicehive.streamlit.app/
 
 ---
 
+## 📹 Demo
+
+Watch the agent in action handling a lead capture flow:
+[![Watch the demo video](<video src="demo.mp4" controls>)
 ## Overview
 
 A production-grade Conversational AI Agent that converts social media conversations into qualified business leads for **AutoStream** — a fictional SaaS video editing platform for content creators.
