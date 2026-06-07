@@ -224,7 +224,7 @@ def get_embeddings() -> Embeddings:
 
     #elif backend == "openai":
     from langchain_google_genai import GoogleGenerativeAIEmbeddings
-    #api_key='AIzaSyAyXVo_G_YqcN7o3XfxQB4yrHcOEAmPd3c'
+    #api_key=st.secrets["api_key1"]
     #model = EMBED_MODEL if "text-embedding" in EMBED_MODEL else "text-embedding-3-small"
     #print(f"[RAG] Using OpenAIEmbeddings: {gemini-embedding}")
     #_embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-001",api_key=api_key)
