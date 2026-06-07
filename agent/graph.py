@@ -43,7 +43,7 @@ from agent.intent_detector import (
     build_intent_classification_prompt,
     map_llm_response_to_intent,
 )
-from agent.rag_pipeline import retrieve_context
+from agent.rag_pipeline1 import retrieve_context
 from tools.lead_capture import mock_lead_capture
 import streamlit as st
 
