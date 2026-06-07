@@ -25,3 +25,4 @@ python-dotenv>=1.0.0
 # Optional: for running tests
 pytest>=8.0.0
 pytest-asyncio>=0.23.0
+protoc >= 3.19.0
