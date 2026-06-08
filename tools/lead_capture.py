@@ -1,43 +1,90 @@
 """
 tools/lead_capture.py
-Mock lead capture tool that simulates saving a qualified lead to a CRM.
+Lead capture tool that saves qualified leads to a persistent cloud JSON bin.
 """
 
 import os
 import json
-import yaml
 import datetime
-from pathlib import Path
+import requests
 from typing import Optional
 
-# Path to persistent storage in the project root
-LEADS_FILE = Path(__file__).parent.parent / "data" / "leads.json"
+# JSONBin.io credentials (Store these in Streamlit Secrets or Environment Variables)
+API_KEY = st.secrets["API_KEY"]
+BIN_ID = None
+HEADERS = {
+    "X-Master-Key": API_KEY,
+    "Content-Type": "application/json"
+}
+BASE_URL = "https://api.jsonbin.io/v3"
+
+def _ensure_bin_exists() -> str:
+    """Creates a JSON bin if it doesn't exist and returns the BIN_ID."""
+    global BIN_ID
+    
+    # If BIN_ID already exists, just return it
+    if BIN_ID:
+        return BIN_ID
+        
+    if not API_KEY:
+        raise ValueError("JSONBIN_API_KEY is missing from environment variables.")
+
+    print("Bin not found. Creating a new JSONBin automatically...")
+    create_url = f"{BASE_URL}/b"
+    payload = {"leads": [], "created_at": datetime.datetime.now().isoformat()}
+    
+    try:
+        response = requests.post(create_url, json=payload, headers=HEADERS)
+        response.raise_for_status()
+        new_bin_id = response.json()["metadata"]["id"]
+        
+        # Save the new BIN_ID to the global variable for the current session
+        BIN_ID = new_bin_id
+        
+        # Persist the BIN_ID to the .env file so it survives restarts locally
+        #env_path = Path(__file__).parent.parent / ".env"
+        ##with open(env_path, "a", encoding="utf-8") as f:
+           #f.write(f"\nJSONBIN_BIN_ID={new_bin_id}")
+            
+        print(f"Successfully created new bin with ID: {new_bin_id}")
+        return new_bin_id
+        
+    except requests.exceptions.RequestException as e:
+        print(f"Error creating JSONBin: {e}")
+        raise
 
 def _load_leads_from_file() -> list[dict]:
-    """Loads leads from the JSON file."""
-    if not LEADS_FILE.exists():
-        return []
+    """Loads leads from the cloud JSON bin."""
+    current_bin_id = _ensure_bin_exists()
+    url = f"{BASE_URL}/b/{current_bin_id}"
+    
     try:
-        with open(LEADS_FILE, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            return data if isinstance(data, list) else []
-    except Exception:
+        response = requests.get(url, headers=HEADERS)
+        response.raise_for_status()
+        data = response.json()
+        # The record contains the JSON payload we stored
+        return data.get("record", {}).get("leads", [])
+    except Exception as e:
+        print(f"Error loading leads from JSONBin: {e}")
         return []
 
-def _save_leads_to_file(leads: list[dict]):
-    """Saves leads to the json file."""
-    # Ensure data directory exists
-    LEADS_FILE.parent.mkdir(parents=True, exist_ok=True)
-    with open(LEADS_FILE, "w", encoding="utf-8") as f:
-        json.dump(leads, f, indent=4, ensure_ascii=False)
-
-# In-memory store simulating a CRM database
-_captured_leads: list[dict] = []
-
+def _save_leads_to_bin(leads: list[dict]):
+    """Saves leads to the cloud JSON bin."""
+    current_bin_id = _ensure_bin_exists()
+    url = f"{BASE_URL}/b/{current_bin_id}"
+    
+    # We wrap the leads list in an object so we can add metadata later if needed
+    payload = {"leads": leads}
+    
+    try:
+        response = requests.put(url, json=payload, headers=HEADERS)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        print(f"Error saving to JSONBin: {e}")
 
 def mock_lead_capture(name: str, email: str, platform: str, plan: str) -> dict:
     """
-    Simulates capturing a qualified lead into the CRM.
+    Captures a qualified lead into the persistent cloud JSON CRM.
 
     Args:
         name     : Full name of the lead
@@ -76,17 +123,7 @@ def mock_lead_capture(name: str, email: str, platform: str, plan: str) -> dict:
     }
 
     all_leads.append(lead)
-    _save_leads_to_file(all_leads)
-
-    # Console output as required by the spec
-    print(f"\n{'='*55}")
-    print(f"  ✅  Lead captured successfully!")
-    print(f"  Name     : {name}")
-    print(f"  Email    : {email}")
-    print(f"  Platform : {platform}")
-    print(f"  Plan     : {plan}")
-    print(f"  Lead ID  : {lead['lead_id']}")
-    print(f"{'='*55}\n")
+    _save_leads_to_bin(all_leads)
 
     return {
         "status": "success",
@@ -95,7 +132,6 @@ def mock_lead_capture(name: str, email: str, platform: str, plan: str) -> dict:
         "data": lead
     }
 
-
 def get_all_leads() -> list[dict]:
-    """Returns all captured leads (for testing/debugging)."""
+    """Returns all captured leads."""
     return _load_leads_from_file()
