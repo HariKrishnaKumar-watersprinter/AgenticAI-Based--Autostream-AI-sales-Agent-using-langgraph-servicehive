@@ -8,10 +8,11 @@ import json
 import datetime
 import requests
 from typing import Optional
+import streamlit as st
 
 # JSONBin.io credentials (Store these in Streamlit Secrets or Environment Variables)
 API_KEY = st.secrets["API_KEY"]
-BIN_ID = None
+BIN_ID = '6a2697feda38895dfe99062e'
 HEADERS = {
     "X-Master-Key": API_KEY,
     "Content-Type": "application/json"
