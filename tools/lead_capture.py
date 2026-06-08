@@ -2,7 +2,6 @@
 tools/lead_capture.py
 Lead capture tool that saves qualified leads to a persistent cloud JSON bin.
 """
-
 import os
 import json
 import datetime
